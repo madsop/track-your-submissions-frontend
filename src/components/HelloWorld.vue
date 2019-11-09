@@ -1,58 +1,72 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  Talk: <select v-model="selected" v-if="talks.length > 0">
+    <option v-for="talk in this.talks" v-bind:value="talk" v-bind:key="talk.id.id">
+      {{ talk.title }}<span v-if="talk.cospeaker">, with cospeaker {{ talk.cospeaker }}
+    </span>
+    </option>
+  </select>
+  <br />
+  <br />
+  <input v-model="conference" placeholder="Conference" /> <br />
+  <input v-model="time" placeholder="Time" /> <br />
+  <textarea v-model="notes" placeholder="Notes" /> <br />
+  <button v-on:click="saveSubmission">Save submission</button>
   </div>
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
-  name: 'HelloWorld',
+  data() {
+    return {
+      selected: undefined,
+      conference: '',
+      time: '',
+      notes: '',
+      talks: [],
+    } 
+  },
   props: {
-    msg: String
-  }
+  },
+  created() {
+    var self = this;
+    axios.get('http://localhost:8080/talks')
+    .then(function (response) {
+      self.talks = response.data;
+    })
+  },
+  methods: {
+    saveSubmission() {
+      var submission = {
+        'conference': this.conference,
+        'time': this.time,
+        'talk': {
+           id: this.selected.id.id
+         },
+        'notes': this.notes
+      }
+      axios.post('http://localhost:8080/cfp/add', submission)
+    }
+  },
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+
+div#selectedTalk {
+  margin-top: 20px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+input, textarea, button {
+  width: 300px;
+  margin: 10px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+textarea {
+  height: 120px;
 }
-a {
-  color: #42b983;
-}
+
 </style>
