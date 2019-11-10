@@ -18,7 +18,7 @@
     <grid-container v-for="submission in this.submissions" :key="submission.id.id" class="mySubmissions">
         <grid-item id="time">{{submission.time }}</grid-item>
         <grid-item id="conference">{{ submission.conference }}</grid-item>
-        <grid-item id="title">{{submission.talk.title}}</grid-item>
+        <grid-item id="title">{{submission.talk.title}}<span v-if="submission.talk.cospeaker">, with cospeaker {{ submission.talk.cospeaker }}</span></grid-item>
         <grid-item id="status">{{submission.status}}</grid-item>
         <grid-item v-if="submission.notes" id="notes">{{ submission.notes }}</grid-item>
     </grid-container>
