@@ -1,19 +1,20 @@
 <template>
   <div class="wrapper">
-  <grid-container id="submission">
-  <grid-item>Talk</grid-item>
-  <grid-item><select v-model="selected" v-if="talks.length > 0">
-    <option v-for="talk in this.talks" v-bind:value="talk" v-bind:key="talk.id.id">
-      {{ talk.title }}<span v-if="talk.cospeaker">, with cospeaker {{ talk.cospeaker }}
-    </span>
-    </option>
-  </select>
-  </grid-item>
-    <grid-item><input v-model="conference" placeholder="Conference" /></grid-item>
-    <grid-item><input v-model="time" placeholder="Time" /></grid-item>
-    <grid-item><textarea v-model="notes" placeholder="Notes" /></grid-item>
-    <grid-item><button v-on:click="saveSubmission">Save submission</button></grid-item>
-  </grid-container>
+    <h1>My submissions to conferences, meetups and other events</h1>
+    <grid-container id="submission">
+      <grid-item>Talk</grid-item>
+      <grid-item>
+        <select v-model="selected" v-if="talks.length > 0">
+          <option v-for="talk in this.talks" v-bind:value="talk" v-bind:key="talk.id.id">
+          {{ talk.title }}<span v-if="talk.cospeaker">, with cospeaker {{ talk.cospeaker }}</span>
+          </option>
+        </select>
+      </grid-item>
+      <grid-item><input v-model="conference" placeholder="Conference" /></grid-item>
+      <grid-item><input v-model="time" placeholder="Time" /></grid-item>
+      <grid-item><textarea v-model="notes" placeholder="Notes" /></grid-item>
+      <grid-item><button v-on:click="saveSubmission">Save submission</button></grid-item>
+    </grid-container>
     <grid-container v-for="submission in this.submissions" :key="submission.id.id" class="mySubmissions">
         <grid-item id="time">{{submission.time }}</grid-item>
         <grid-item id="conference">{{ submission.conference }}</grid-item>
