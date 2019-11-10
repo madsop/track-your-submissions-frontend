@@ -85,5 +85,9 @@ textarea {
 li {
   list-style-type: none;
 }
+ul {
+  padding: 0;
+  margin: 1px auto;
+}
 
 </style>
