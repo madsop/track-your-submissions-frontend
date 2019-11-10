@@ -1,24 +1,26 @@
 <template>
-  <div class="hello">
-  Talk: <select v-model="selected" v-if="talks.length > 0">
+  <div class="wrapper">
+  <grid-container id="submission">
+  <grid-item>Talk</grid-item>
+  <grid-item><select v-model="selected" v-if="talks.length > 0">
     <option v-for="talk in this.talks" v-bind:value="talk" v-bind:key="talk.id.id">
       {{ talk.title }}<span v-if="talk.cospeaker">, with cospeaker {{ talk.cospeaker }}
     </span>
     </option>
   </select>
-  <br />
-  <br />
-  <input v-model="conference" placeholder="Conference" /> <br />
-  <input v-model="time" placeholder="Time" /> <br />
-  <textarea v-model="notes" placeholder="Notes" /> <br />
-  <button v-on:click="saveSubmission">Save submission</button>
-  <hr />
-  <br />
-  <h2>My submissions:</h2>
-  <ul v-for="submission in this.submissions" v-bind:key="submission.id.id">
-    <li>{{ submission.time }}, {{ submission.conference }}: {{ submission.talk.title }} ({{ submission.status }}) 
-      <span v-if="submission.notes">({{submission.notes}})</span> </li>
-  </ul> 
+  </grid-item>
+    <grid-item><input v-model="conference" placeholder="Conference" /></grid-item>
+    <grid-item><input v-model="time" placeholder="Time" /></grid-item>
+    <grid-item><textarea v-model="notes" placeholder="Notes" /></grid-item>
+    <grid-item><button v-on:click="saveSubmission">Save submission</button></grid-item>
+  </grid-container>
+    <grid-container v-for="submission in this.submissions" :key="submission.id.id" class="mySubmissions">
+        <grid-item id="time">{{submission.time }}</grid-item>
+        <grid-item id="conference">{{ submission.conference }}</grid-item>
+        <grid-item id="title">{{submission.talk.title}}</grid-item>
+        <grid-item id="status">{{submission.status}}</grid-item>
+        <grid-item v-if="submission.notes" id="notes">{{ submission.notes }}</grid-item>
+    </grid-container>
   </div>
 </template>
 
@@ -67,11 +69,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
-div#selectedTalk {
-  margin-top: 20px;
-}
+<style lang="scss" scoped>
 
 input, textarea, button {
   width: 300px;
@@ -82,12 +80,46 @@ textarea {
   height: 120px;
 }
 
-li {
-  list-style-type: none;
+.wrapper {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: 1fr;
 }
-ul {
-  padding: 0;
-  margin: 1px auto;
+
+grid-container {
+  display: grid;
+}
+
+grid-container.mySubmissions {
+  grid-template-columns: 1fr 2fr 3fr 1fr 1fr;
+}
+
+grid-container#submission {
+  grid-template-columns: 1fr;
+  align-self: center;
+  justify-self: center;
+  margin-bottom: 1em;
+}
+
+#submission grid-item {
+  align-self: center;
+  justify-self: center;
+}
+
+grid-item {
+  display: flex;
+  justify-content: left;
+  $mobile-max: 700px;
+  text-align: left;
+  @media screen and (max-width: $mobile-max) {
+      padding: 0.2rem 0.1rem;
+      margin: 0.3rem 0.1rem;
+      word-break: break-word;
+  }
+  @media screen and (min-width: $mobile-max) {
+      padding: 0.2rem 1.5rem;
+  }
 }
 
 </style>
