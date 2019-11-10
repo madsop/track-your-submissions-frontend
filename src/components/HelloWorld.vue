@@ -12,6 +12,13 @@
   <input v-model="time" placeholder="Time" /> <br />
   <textarea v-model="notes" placeholder="Notes" /> <br />
   <button v-on:click="saveSubmission">Save submission</button>
+  <hr />
+  <br />
+  <h2>My submissions:</h2>
+  <ul v-for="submission in this.submissions" v-bind:key="submission.id.id">
+    <li>{{ submission.time }}, {{ submission.conference }}: {{ submission.talk.title }} ({{ submission.status }}) 
+      <span v-if="submission.notes">({{submission.notes}})</span> </li>
+  </ul> 
   </div>
 </template>
 
@@ -27,15 +34,21 @@ export default {
       time: '',
       notes: '',
       talks: [],
+      submissions: [],
+      baseurl: 'http://localhost:8080', 
     } 
   },
   props: {
   },
   created() {
     var self = this;
-    axios.get('http://localhost:8080/talks')
+    axios.get(self.baseurl + '/talks')
     .then(function (response) {
       self.talks = response.data;
+    });
+    axios.get(self.baseurl + '/cfp')
+    .then(function(response) {
+      self.submissions = response.data;
     })
   },
   methods: {
@@ -48,7 +61,7 @@ export default {
          },
         'notes': this.notes
       }
-      axios.post('http://localhost:8080/cfp/add', submission)
+      axios.post(this.baseurl + '/cfp/add', submission)
     }
   },
 }
@@ -67,6 +80,10 @@ input, textarea, button {
 
 textarea {
   height: 120px;
+}
+
+li {
+  list-style-type: none;
 }
 
 </style>
