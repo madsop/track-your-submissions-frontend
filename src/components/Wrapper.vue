@@ -1,8 +1,10 @@
 <template>
   <div class="wrapper">
     <h1>My submissions to conferences, meetups and other events</h1>
-    <AddTalk />
-    <MySubmissions />
+    <div class="content">
+      <AddTalk />
+      <MySubmissions />
+    </div>
   </div>
 </template>
 
@@ -21,12 +23,16 @@ export default {
 
 <style lang="scss" scoped>
 
-.wrapper {
-  display: grid;
-  align-items: center;
+div {
   justify-content: center;
-  grid-template-columns: 1fr;
   margin: 0 auto;
 }
+
+div.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 1.3em;
+}
+
 
 </style>

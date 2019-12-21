@@ -39,7 +39,15 @@ export default {
 
 <style lang="scss" scoped>
     section.mySubmissions {
-    display: grid;
-    grid-template-columns: 1fr 2fr 3fr 1fr 1fr;
-}
+        display: grid;
+        grid-template-columns: 1fr 2fr 3fr 1fr 1fr;
+        width: 85rem;
+        margin-top: 0.5rem;
+        text-align: left;
+    }
+
+    div#notes {
+        margin-left: 1rem;
+    }
+
 </style>

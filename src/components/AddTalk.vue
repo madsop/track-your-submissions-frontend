@@ -53,21 +53,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-input, textarea, button {
-  width: 300px;
-  margin: 10px;
-}
+    input, textarea, button {
+        width: 300px;
+        margin: 10px;
+    }
 
-textarea {
-  height: 120px;
-}
+    textarea {
+        height: 120px;
+    }
 
   section#submission {
-      display: grid;
+    display: grid;
     grid-template-columns: 1fr;
     align-self: center;
-    justify-self: center;
-    margin-bottom: 1em;
+    justify-self: left;
+    margin: 0 1rem 0 1rem;
+    width: 15rem;
   }
 
   #submission div {
