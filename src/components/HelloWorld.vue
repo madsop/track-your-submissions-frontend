@@ -1,27 +1,27 @@
 <template>
   <div class="wrapper">
     <h1>My submissions to conferences, meetups and other events</h1>
-    <grid-container id="submission">
-      <grid-item>Talk</grid-item>
-      <grid-item>
+    <section id="submission">
+      <div>Talk</div>
+      <div>
         <select v-model="selected" v-if="talks.length > 0">
           <option v-for="talk in this.talks" v-bind:value="talk" v-bind:key="talk.id.id">
           {{ talk.title }}<span v-if="talk.cospeaker">, with cospeaker {{ talk.cospeaker }}</span>
           </option>
         </select>
-      </grid-item>
-      <grid-item><input v-model="conference" placeholder="Conference" /></grid-item>
-      <grid-item><input v-model="time" placeholder="Time" /></grid-item>
-      <grid-item><textarea v-model="notes" placeholder="Notes" /></grid-item>
-      <grid-item><button v-on:click="saveSubmission">Save submission</button></grid-item>
-    </grid-container>
-    <grid-container v-for="submission in this.submissions" :key="submission.id.id" class="mySubmissions">
-        <grid-item id="time">{{submission.time }}</grid-item>
-        <grid-item id="conference">{{ submission.conference }}</grid-item>
-        <grid-item id="title">{{submission.talk.title}}<span v-if="submission.talk.cospeaker">, with cospeaker {{ submission.talk.cospeaker }}</span></grid-item>
-        <grid-item id="status">{{submission.status}}</grid-item>
-        <grid-item v-if="submission.notes" id="notes">{{ submission.notes }}</grid-item>
-    </grid-container>
+      </div>
+      <div><input v-model="conference" placeholder="Conference" /></div>
+      <div><input v-model="time" placeholder="Time" /></div>
+      <div><textarea v-model="notes" placeholder="Notes" /></div>
+      <div><button v-on:click="saveSubmission">Save submission</button></div>
+    </section>
+    <section v-for="submission in this.submissions" :key="submission.id.id" class="mySubmissions">
+        <div id="time">{{submission.time }}</div>
+        <div id="conference">{{ submission.conference }}</div>
+        <div id="title">{{submission.talk.title}}<span v-if="submission.talk.cospeaker">, with cospeaker {{ submission.talk.cospeaker }}</span></div>
+        <div id="status">{{submission.status}}</div>
+        <div v-if="submission.notes" id="notes">{{ submission.notes }}</div>
+    </section>
   </div>
 </template>
 
@@ -86,29 +86,27 @@ textarea {
   align-items: center;
   justify-content: center;
   grid-template-columns: 1fr;
+  margin: 0 auto;
 }
 
-grid-container {
+section {
   display: grid;
 }
 
-grid-container.mySubmissions {
+section.mySubmissions {
   grid-template-columns: 1fr 2fr 3fr 1fr 1fr;
 }
 
-grid-container#submission {
+section#submission {
   grid-template-columns: 1fr;
   align-self: center;
   justify-self: center;
   margin-bottom: 1em;
 }
 
-#submission grid-item {
+#submission div {
   align-self: center;
   justify-self: center;
-}
-
-grid-item {
   display: flex;
   justify-content: left;
   $mobile-max: 700px;
@@ -121,6 +119,9 @@ grid-item {
   @media screen and (min-width: $mobile-max) {
       padding: 0.2rem 1.5rem;
   }
+}
+div {
+  border: 1px solid blue;
 }
 
 </style>
