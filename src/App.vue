@@ -1,21 +1,22 @@
 <template>
   <div id="app">
-    <Wrapper />
+    <Wrapper/>
   </div>
 </template>
 
-<script>
-import Wrapper from './components/Wrapper.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import Wrapper from './components/Wrapper.vue';
 
-export default {
-  name: 'app',
+@Component({
   components: {
-    Wrapper
-  }
-}
+    Wrapper,
+  },
+})
+export default class App extends Vue {}
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

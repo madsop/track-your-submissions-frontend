@@ -1,53 +1,38 @@
 <template>
-<div>
-    <section v-for="submission in this.submissions" :key="submission.id.id" class="mySubmissions">
-        <div id="time">{{submission.time }}</div>
-        <div id="conference">{{ submission.conference }}</div>
-        <div id="title">{{submission.talk.title}}<span v-if="submission.talk.cospeaker">, with cospeaker {{ submission.talk.cospeaker }}</span></div>
-        <div id="status">{{submission.status}}</div>
-        <div v-if="submission.notes" id="notes">{{ submission.notes }}</div>
+  <div class="allSubmissions">
+    <section v-for="submission in submissions" :key="submission.title+submission.conference" class="mySubmissions">
+      <Submission 
+        :id="submission.id"
+        :time="submission.time" 
+        :conference="submission.conference"
+        :status="submission.status"
+        :talk="submission.talk"
+        :notes="submission.notes"
+      />
     </section>
-</div>
-
+  </div>
 </template>
 
 <script lang="ts">
 
 import axios from 'axios';
+import Submission from '@/components/Submission.vue';
 
 export default {
+  components: {
+      Submission,
+  },
   data() {
     return {
-      conference: '',
-      time: '',
-      notes: '',
       submissions: [],
-      baseurl: 'http://localhost:8080', 
-    } 
-  },
-  props: {
+      baseurl: 'http://localhost:8080',
+    };
   },
   created() {
-    var self = this;
+    const self = this;
     axios.get(self.baseurl + '/cfp')
-    .then(function(response) {
-      self.submissions = response.data;
-    })
+    .then((response) => response.data)
+    .then((data) => self.submissions = data);
   },
-}
+};
 </script>
-
-<style lang="scss" scoped>
-    section.mySubmissions {
-        display: grid;
-        grid-template-columns: 1fr 2fr 3fr 1fr 1fr;
-        width: 85rem;
-        margin-top: 0.5rem;
-        text-align: left;
-    }
-
-    div#notes {
-        margin-left: 1rem;
-    }
-
-</style>

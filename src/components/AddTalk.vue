@@ -1,5 +1,5 @@
 <template>
-    <section id="submission">
+    <section id="addSubmission">
       <div>Talk</div>
       <div>
         <select v-model="selected" v-if="talks.length > 0">
@@ -8,11 +8,19 @@
           </option>
         </select>
       </div>
-      <div><input v-model="conference" placeholder="Conference" /></div>
-      <div><input v-model="time" placeholder="Time" /></div>
-      <div><textarea v-model="notes" placeholder="Notes" /></div>
-      <div><button v-on:click="saveSubmission">Save submission</button></div>
-    </section>
+    <div><input v-model="conference" placeholder="Conference" /></div>
+    <div><input v-model="time" placeholder="Time" /></div>
+    <div><textarea 
+      v-model="notes" 
+      placeholder="Notes" 
+    />
+    </div>
+    <div>
+      <button @:click="saveSubmission">
+        Save submission
+      </button>
+    </div>
+  </section>
 </template>
 <script>
 import axios from 'axios';
@@ -26,30 +34,28 @@ export default {
           time: '',
           notes: '',
           talks: [],
-          baseurl: 'http://localhost:8080', 
-      }
+          baseurl: 'http://localhost:8080',
+      };
+    },
+    created() {
+        const self = this;
+        axios.get(self.baseurl + '/talks')
+        .then((response) => self.talks = response.data);
     },
   methods: {
     saveSubmission() {
-      var submission = {
-        'conference': this.conference,
-        'time': this.time,
-        'talk': {
-           id: this.selected.id.id
+      const submission = {
+        conference: this.conference,
+        time: this.time,
+        talk: {
+           id: this.selected.id.id,
          },
-        'notes': this.notes
-      }
-      axios.post(this.baseurl + '/cfp/add', submission)
-    }
-  },
-    created() {
-        var self = this;
-        axios.get(self.baseurl + '/talks')
-        .then(function (response) {
-             self.talks = response.data;
-        });
+        notes: this.notes,
+      };
+      axios.post(this.baseurl + '/cfp/add', submission);
     },
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -62,16 +68,16 @@ export default {
         height: 120px;
     }
 
-  section#submission {
+  section#addSubmission {
     display: grid;
     grid-template-columns: 1fr;
     align-self: center;
     justify-self: left;
     margin: 0 1rem 0 1rem;
-    width: 15rem;
+    width: 28rem;
   }
 
-  #submission div {
+  #addSubmission div {
     align-self: center;
     justify-self: center;
     display: flex;
